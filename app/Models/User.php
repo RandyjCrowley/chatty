@@ -25,7 +25,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected  $fillable = [  //phpcs:ignore
+    protected $fillable = [  //phpcs:ignore
         'name',
         'email',
     ];
@@ -35,7 +35,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected  $hidden = [  //phpcs:ignore
+    protected $hidden = [  //phpcs:ignore
         'remember_token',
     ];
 
