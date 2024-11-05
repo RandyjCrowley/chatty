@@ -7,15 +7,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
-class Chat extends Model
+class Conversation extends Model
 {
     use HasFactory;
 
     protected $fillable = //phpcs:ignore
-    ['character_id', 'user_id'];
+    ['chat_id', 'character_id', 'user_id'];
 
     protected $keyType = //phpcs:ignore
     'string';
@@ -34,20 +34,20 @@ class Chat extends Model
         });
     }
 
-    public function conversation(): HasMany
+    public function chat(): HasOne
     {
-        return $this->hasMany(Conversation::class);
+        return $this->hasOne(Chat::class);
     }
 
     // Relationship with Character
     public function character(): BelongsTo
     {
-        return $this->belongsTo(Character::class);
+        return $this->hasOne(Chat::class)->belongsTo(Character::class);
     }
 
     // Relationship with User (assuming a User model exists)
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(Chat::class)->belongsTo(User::class);
     }
 }

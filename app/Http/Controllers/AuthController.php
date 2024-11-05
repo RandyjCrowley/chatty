@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -14,7 +15,7 @@ class AuthController extends Controller
     /**
      * Redirect the user to the Provider authentication page.
      */
-    public function redirectToProvider(string $provider): JsonResponse
+    public function redirectToProvider(string $provider): RedirectResponse
     {
         $validated = $this->validateProvider($provider);
         if (! is_null($validated)) {
