@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<ruleset name="WeCare Connect">
+    <description>The WeCare Connect Coding Standard.</description>
+    <arg name="tab-width" value="4"/>
+    <rule ref="PSR12" />
+    <rule ref="Generic.PHP.RequireStrictTypes" />
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses" />
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.PHP.UselessParentheses" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint" />
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint" />
+    <rule ref="SlevomatCodingStandard.Variables.UnusedVariable" />
+    <rule ref="SlevomatCodingStandard.Variables.UselessVariable" />
+    <rule ref="Generic.CodeAnalysis.AssignmentInCondition" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+
+    <rule ref="SlevomatCodingStandard.Classes.ClassStructure">
+        <properties>
+            <property name="groups" type="array">
+                <element value="uses"/>
+
+                <element value="public constants"/>
+                <element value="constants"/>
+
+                <element value="public static properties, protected static properties, private static properties"/>
+                <element value="public properties, protected properties, private properties"/>
+                <element value="enum cases"/>
+
+                <element value="constructor"/>
+                <element value="methods"/>
+                <element value="magic methods"/>
+            </property>
+        </properties>
+    </rule>
+
+</ruleset>
+

@@ -1,24 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
 
-class Authcontroller extends Controller
+class AuthController extends Controller
 {
     /**
      * Redirect the user to the Provider authentication page.
-     *
-     * @param $provider
-     * @return JsonResponse
      */
-    public function redirectToProvider($provider)
+    public function redirectToProvider(string $provider): JsonResponse
     {
         $validated = $this->validateProvider($provider);
-        if (!is_null($validated)) {
+        if (! is_null($validated)) {
             return $validated;
         }
 
@@ -27,14 +26,11 @@ class Authcontroller extends Controller
 
     /**
      * Obtain the user information from Provider.
-     *
-     * @param $provider
-     * @return JsonResponse
      */
-    public function handleProviderCallback($provider)
+    public function handleProviderCallback(string $provider): JsonResponse
     {
         $validated = $this->validateProvider($provider);
-        if (!is_null($validated)) {
+        if (! is_null($validated)) {
             return $validated;
         }
         try {
@@ -45,7 +41,7 @@ class Authcontroller extends Controller
 
         $userCreated = User::firstOrCreate(
             [
-                'email' => $user->getEmail()
+                'email' => $user->getEmail(),
             ],
             [
                 'email_verified_at' => now(),
@@ -59,7 +55,7 @@ class Authcontroller extends Controller
                 'provider_id' => $user->getId(),
             ],
             [
-                'avatar' => $user->getAvatar()
+                'avatar' => $user->getAvatar(),
             ]
         );
 
@@ -69,14 +65,12 @@ class Authcontroller extends Controller
         return response()->json($userCreated, 200, ['Access-Token' => $token]);
     }
 
-    /**
-     * @param $provider
-     * @return JsonResponse
-     */
-    protected function validateProvider($provider)
+    protected function validateProvider(string $provider): ?JsonResponse
     {
-        if (!in_array($provider, ['facebook', 'github', 'google'])) {
+        if (! in_array($provider, ['facebook', 'github', 'google'])) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
+
+        return null;
     }
 }
