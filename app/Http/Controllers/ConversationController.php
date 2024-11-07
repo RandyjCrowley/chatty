@@ -38,17 +38,25 @@ class ConversationController extends Controller
 
             $chat->conversation()->create($payload);
 
+
+
             $conversation = $chat->conversation;
-            $messages = $conversation->map(function ($message) {
+            $messages = [
+                'role' => 'system',
+                'content' => $chat->character->persona,
+            ];
+
+            $history = $conversation->map(function ($message) {
                 return [
                     'role' => $message->is_user_message ? 'user' : 'assistant',
                     'content' => $message->content,
                 ];
             })->toArray();
 
+
             $data = [
                 'model' => 'llama3.1',
-                'messages' => $messages,
+                'messages' => array_merge([$messages], $history),
             ];
 
             $streamService = new Helping($data);

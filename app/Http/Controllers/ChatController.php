@@ -25,11 +25,11 @@ class ChatController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        try {
-            $request->validate([
-                'character_id' => 'required|integer',
-            ]);
 
+        $request->validate([
+            'character_id' => 'required|uuid',
+        ]);
+        try {
             try {
                 // Attempt to find the Character
                 $character = Character::findOrFail($request->character_id);
