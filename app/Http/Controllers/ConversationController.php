@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helper\Helping;
 use App\Models\Chat;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ConversationController extends Controller
 {
@@ -20,11 +24,43 @@ class ConversationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): void
+    public function store(Request $request, Chat $chat): StreamedResponse | JsonResponse
     {
-        //
-    }
+        try {
+            $request->validate([
+                'content' => 'required|string|max:250',
+            ]);
 
+            $payload = [
+                'content' => $request->input('content'),
+                'is_user_message' => true,
+            ];
+
+            $chat->conversation()->create($payload);
+
+            $conversation = $chat->conversation;
+            $messages = $conversation->map(function ($message) {
+                return [
+                    'role' => $message->is_user_message ? 'user' : 'assistant',
+                    'content' => $message->content,
+                ];
+            })->toArray();
+
+            $data = [
+                'model' => 'llama3.1',
+                'messages' => $messages,
+            ];
+
+            $streamService = new Helping($data);
+
+            return $streamService->stream($chat);
+        } catch (\Exception $e) {
+            Log::error('Error storing conversation: ' . $e->getMessage());
+
+            // Return a response with a 500 error code
+            return response()->json(['message' => 'Failed to store conversation. Please try again later.'], 500);
+        }
+    }
 
     /**
      * Display the specified resource.

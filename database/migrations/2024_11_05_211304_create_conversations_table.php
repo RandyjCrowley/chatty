@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('conversations', function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignId('chat_id')->constrained()->onDelete('cascade');
-            $table->text('message');
+            $table->text('content');
             $table->boolean('is_user_message')->default(true);
             $table->timestamps();
         });

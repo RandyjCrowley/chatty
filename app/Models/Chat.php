@@ -14,6 +14,8 @@ class Chat extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id'; //phpcs:ignore
+
     protected $fillable = //phpcs:ignore
     ['character_id', 'user_id'];
 

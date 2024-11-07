@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 class TrackIpFailures
 {
     private const ERROR_STATUS_THRESHOLD = 400;
+
     /**
      * Handle an incoming request.
      *
@@ -28,11 +29,12 @@ class TrackIpFailures
             return response()->json(['error' => 'Your IP has been banned due to too many failures.'], 403);
         }
 
+        //        dd($request);
+
         // Proceed with the request and capture response
         $response = $next($request);
-
         // Check for failure (status code >= 400)
-        if ($response->status() >= self::ERROR_STATUS_THRESHOLD) {
+        if ($response->getStatusCode() >= self::ERROR_STATUS_THRESHOLD) {
             $failures = Cache::get("failures:{$ip}", 0) + 1;
             Cache::put("failures:{$ip}", $failures, now()->addMinutes(10)); // Track for 10 minutes
 

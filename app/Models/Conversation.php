@@ -15,7 +15,7 @@ class Conversation extends Model
     use HasFactory;
 
     protected $fillable = //phpcs:ignore
-    ['chat_id', 'character_id', 'user_id'];
+    ['chat_id', 'is_user_message', 'user_id', 'content'];
 
     protected $keyType = //phpcs:ignore
     'string';
@@ -37,12 +37,6 @@ class Conversation extends Model
     public function chat(): HasOne
     {
         return $this->hasOne(Chat::class);
-    }
-
-    // Relationship with Character
-    public function character(): BelongsTo
-    {
-        return $this->hasOne(Chat::class)->belongsTo(Character::class);
     }
 
     // Relationship with User (assuming a User model exists)

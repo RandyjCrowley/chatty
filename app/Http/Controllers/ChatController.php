@@ -26,10 +26,9 @@ class ChatController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            // Check if 'character_id' is provided
-            if (! $request->has('character_id')) {
-                return response()->json(['error' => 'Character ID is required.'], 400);
-            }
+            $request->validate([
+                'character_id' => 'required|integer',
+            ]);
 
             try {
                 // Attempt to find the Character

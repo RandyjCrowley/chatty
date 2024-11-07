@@ -10,7 +10,7 @@ Route::get('/login/{provider}/callback', [App\Http\Controllers\AuthController::c
 
 Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::post('chat', [App\Http\Controllers\ChatController::class, 'store']);
-    Route::get('chat/{id}', [App\Http\Controllers\ChatController::class, 'index']);
+    Route::post('chat/{chat}', [App\Http\Controllers\ConversationController::class, 'store']);
     Route::get('user', function (Request $request) {
         return $request->user();
     });
