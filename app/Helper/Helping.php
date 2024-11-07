@@ -20,6 +20,7 @@ class Helping
      */
     protected $data = //phpcs:ignore
     [];
+
     /**
      * @var array<string, mixed>
      */
@@ -29,8 +30,8 @@ class Helping
     /**
      * Initialize the Helping class with optional data and headers
      *
-     * @param array<string, mixed> $data    The data to be processed
-     * @param array<string, string> $headers The HTTP headers to be used
+     * @param  array<string, mixed>  $data    The data to be processed
+     * @param  array<string, string>  $headers The HTTP headers to be used
      */
     public function __construct(array $data = [], array $headers = [])
     {
@@ -41,7 +42,6 @@ class Helping
 
     /**
      * Stream data from an external source and save to chat.
-     *
      */
     public function stream(Chat $chat): StreamedResponse
     {

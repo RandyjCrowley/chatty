@@ -24,21 +24,19 @@ class ConversationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Chat $chat): StreamedResponse | JsonResponse
+    public function store(Request $request, Chat $chat): StreamedResponse|JsonResponse
     {
-        try {
-            $request->validate([
-                'content' => 'required|string|max:250',
-            ]);
+        $request->validate([
+            'content' => 'required|string|max:250',
+        ]);
 
+        try {
             $payload = [
                 'content' => $request->input('content'),
                 'is_user_message' => true,
             ];
 
             $chat->conversation()->create($payload);
-
-
 
             $conversation = $chat->conversation;
             $messages = [
@@ -52,7 +50,6 @@ class ConversationController extends Controller
                     'content' => $message->content,
                 ];
             })->toArray();
-
 
             $data = [
                 'model' => 'llama3.1',
